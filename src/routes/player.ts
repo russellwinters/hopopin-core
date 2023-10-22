@@ -1,25 +1,17 @@
 import { GamePlayer } from "@prisma/client";
-import { prisma } from "../prisma";
+import { PlayerQuery } from "src/db/player";
 
 const PlayerRoutes = {
   playerById: async (req, res) => {
     const { id } = req.params;
-    const player = await prisma.player.findUnique({
-      where: {
-        id,
-      },
-    });
+    const player = await PlayerQuery?.findById(id);
+
     res.json({ player });
   },
   playerGames: async (req, res) => {
     const { id } = req.params;
-    const player = await prisma.player.findUnique({
-      where: {
-        id,
-      },
-      include: {
-        GamePlayer: true,
-      },
+    const player = await PlayerQuery?.findById(id, {
+      includeGames: true,
     });
 
     const games = player?.GamePlayer;
@@ -30,15 +22,9 @@ const PlayerRoutes = {
   // TODO: Validate routes below
   playerAverages: async (req, res) => {
     const { id } = req.params;
-    const player = await prisma.player.findUnique({
-      where: {
-        id,
-      },
-      include: {
-        GamePlayer: true,
-      },
+    const player = await PlayerQuery?.findById(id, {
+      includeGames: true,
     });
-
     const games = player?.GamePlayer;
 
     if (!games) {
