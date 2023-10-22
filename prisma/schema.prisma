@@ -1,0 +1,132 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model GamePlayer {
+  id       String @id
+  playerId String
+  minutes  Int
+  fga      Int
+  fgm      Int
+  tpa      Int
+  tpm      Int
+  fta      Int
+  ftm      Int
+  oreb     Int
+  dreb     Int
+  reb      Int
+  ast      Int
+  stl      Int
+  blk      Int
+  to       Int
+  pf       Int
+  pts      Int
+  Player   Player @relation(fields: [playerId], references: [id])
+}
+
+model GamePlayerNba {
+  id        String    @id
+  playerId  String
+  minutes   Int
+  fga       Int
+  fgm       Int
+  tpa       Int
+  tpm       Int
+  fta       Int
+  ftm       Int
+  oreb      Int
+  dreb      Int
+  reb       Int
+  ast       Int
+  stl       Int
+  blk       Int
+  to        Int
+  pf        Int
+  pts       Int
+  PlayerNba PlayerNba @relation(fields: [playerId], references: [id])
+}
+
+model GameTeam {
+  id     String @id
+  teamId String
+  fga    Int
+  fgm    Int
+  tpa    Int
+  tpm    Int
+  fta    Int
+  ftm    Int
+  oreb   Int
+  dreb   Int
+  reb    Int
+  ast    Int
+  stl    Int
+  blk    Int
+  to     Int
+  pf     Int
+  pts    Int
+  Team   Team   @relation(fields: [teamId], references: [id])
+}
+
+model GameTeamNba {
+  id      String  @id
+  teamId  String
+  fga     Int
+  fgm     Int
+  tpa     Int
+  tpm     Int
+  fta     Int
+  ftm     Int
+  oreb    Int
+  dreb    Int
+  reb     Int
+  ast     Int
+  stl     Int
+  blk     Int
+  to      Int
+  pf      Int
+  pts     Int
+  TeamNba TeamNba @relation(fields: [teamId], references: [id])
+}
+
+model Player {
+  id         String       @id
+  teamId     String
+  salary     Int
+  nameFirst  String
+  nameLast   String
+  dob        DateTime
+  GamePlayer GamePlayer[]
+  Team       Team         @relation(fields: [teamId], references: [id])
+}
+
+model PlayerNba {
+  id            String          @id
+  teamId        String
+  salary        Int
+  nameFirst     String
+  nameLast      String
+  dob           DateTime
+  GamePlayerNba GamePlayerNba[]
+  TeamNba       TeamNba         @relation(fields: [teamId], references: [id])
+}
+
+model Team {
+  id       String     @id
+  name     String
+  city     String
+  GameTeam GameTeam[]
+  Player   Player[]
+}
+
+model TeamNba {
+  id          String        @id
+  name        String
+  city        String
+  GameTeamNba GameTeamNba[]
+  PlayerNba   PlayerNba[]
+}
