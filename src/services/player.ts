@@ -7,8 +7,8 @@ const PlayerService = {
     const totals: GamePlayer = games.reduce(
       (acc, cur) => {
         return {
-          id: acc.id,
-          player_id: acc.player_id,
+          id: cur.id,
+          player_id: cur.player_id,
           minutes: cur.minutes + acc.minutes,
           fga: cur.fga + acc.fga,
           fgm: cur.fgm + acc.fgm,
@@ -54,13 +54,12 @@ const PlayerService = {
       gameCount: games.length,
     };
   },
-  getAverages: (
-    totals: Partial<GamePlayer>,
-    gameCount: number
-  ): Partial<GamePlayer> => {
-    let averages: Partial<GamePlayer> = {};
+  getAverages: (totals: GamePlayer, gameCount: number): GamePlayer => {
+    let averages: GamePlayer = { ...totals };
     for (let key in totals) {
-      averages[key] = totals[key] / gameCount;
+      if (!["id", "player_id"].includes(key)) {
+        averages[key] = totals[key] / gameCount;
+      }
     }
     return averages;
   },

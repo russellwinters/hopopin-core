@@ -1,5 +1,5 @@
 import { PlayerStatAverage } from "@prisma/client";
-import { prisma } from "src/prisma";
+import { prisma } from "../prisma";
 
 const PlayerAverageQuery = {
   findById: async (id: string) => {
@@ -29,6 +29,28 @@ const PlayerAverageMutation = {
       console.log("error upserting averages: ", {});
       return false;
     }
+  },
+  createMany: async (data: PlayerStatAverage[]) => {
+    try {
+      await prisma.playerStatAverage.createMany({
+        data,
+      });
+      console.log("successful creation of averages");
+      return true;
+    } catch (e) {
+      // console.log("error creating averages: ", { e });
+      return false;
+    }
+  },
+  markUpdate: async (time?: Date) => {
+    const timestamp = time || new Date();
+    const init = await prisma.playerAverageUpdate.create({
+      data: {
+        timestamp,
+      },
+    });
+
+    return !!init;
   },
 };
 

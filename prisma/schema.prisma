@@ -77,11 +77,6 @@ model Player {
   PlayerStatTotal   PlayerStatTotal?
 }
 
-model PlayerAverateUpdate {
-  timestamp DateTime
-  id        Int      @id @default(autoincrement())
-}
-
 model PlayerStatAverage {
   id            String   @id
   minutes       Int
@@ -145,4 +140,9 @@ model TeamFantasy {
   id              String            @id
   name            String
   ContractFantasy ContractFantasy[]
+}
+
+model PlayerAverageUpdate {
+  id        Int      @id @default(autoincrement())
+  timestamp DateTime
 }

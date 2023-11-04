@@ -31,7 +31,6 @@ const PlayerTotalMutation = {
     }
   },
   createMany: async (data: PlayerStatTotal[]) => {
-    console.log({ data });
     try {
       await prisma.playerStatTotal.createMany({
         data,
