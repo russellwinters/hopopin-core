@@ -3,10 +3,12 @@ import { GamePlayer } from "@prisma/client";
 const PlayerService = {
   getTotals: (
     games: GamePlayer[]
-  ): { totals: Partial<GamePlayer>; gameCount: number } => {
-    const totals: Partial<GamePlayer> = games.reduce(
-      (cur, acc) => {
+  ): { totals: GamePlayer; gameCount: number } => {
+    const totals: GamePlayer = games.reduce(
+      (acc, cur) => {
         return {
+          id: acc.id,
+          player_id: acc.player_id,
           minutes: cur.minutes + acc.minutes,
           fga: cur.fga + acc.fga,
           fgm: cur.fgm + acc.fgm,
@@ -26,6 +28,8 @@ const PlayerService = {
         };
       },
       {
+        id: "",
+        player_id: "",
         minutes: 0,
         fga: 0,
         fgm: 0,

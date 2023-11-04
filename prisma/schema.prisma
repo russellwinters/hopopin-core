@@ -77,6 +77,11 @@ model Player {
   PlayerStatTotal   PlayerStatTotal?
 }
 
+model PlayerAverateUpdate {
+  timestamp DateTime
+  id        Int      @id @default(autoincrement())
+}
+
 model PlayerStatAverage {
   id            String   @id
   minutes       Int
@@ -121,6 +126,11 @@ model PlayerStatTotal {
   latest_update DateTime
   player_id     String   @unique
   Player        Player   @relation(fields: [player_id], references: [id])
+}
+
+model PlayerTotalUpdate {
+  timestamp DateTime
+  id        Int      @id @default(autoincrement())
 }
 
 model Team {
