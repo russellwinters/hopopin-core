@@ -7,31 +7,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model GamePlayer {
-  id       String @id
-  playerId String
-  minutes  Int
-  fga      Int
-  fgm      Int
-  tpa      Int
-  tpm      Int
-  fta      Int
-  ftm      Int
-  oreb     Int
-  dreb     Int
-  reb      Int
-  ast      Int
-  stl      Int
-  blk      Int
-  to       Int
-  pf       Int
-  pts      Int
-  Player   Player @relation(fields: [playerId], references: [id])
+model ContractFantasy {
+  id                    String           @id
+  signed                DateTime
+  waived                DateTime?
+  player_id             String
+  successor_id          String?          @unique
+  team_id               String
+  Player                Player           @relation(fields: [player_id], references: [id])
+  ContractFantasy       ContractFantasy? @relation("ContractFantasyToContractFantasy", fields: [successor_id], references: [id])
+  other_ContractFantasy ContractFantasy? @relation("ContractFantasyToContractFantasy")
+  TeamFantasy           TeamFantasy      @relation(fields: [team_id], references: [id])
 }
 
-model GamePlayerNba {
-  id        String    @id
-  playerId  String
+model GamePlayer {
+  id        String @id
   minutes   Int
   fga       Int
   fgm       Int
@@ -48,33 +38,12 @@ model GamePlayerNba {
   to        Int
   pf        Int
   pts       Int
-  PlayerNba PlayerNba @relation(fields: [playerId], references: [id])
+  player_id String
+  Player    Player @relation(fields: [player_id], references: [id])
 }
 
 model GameTeam {
-  id     String @id
-  teamId String
-  fga    Int
-  fgm    Int
-  tpa    Int
-  tpm    Int
-  fta    Int
-  ftm    Int
-  oreb   Int
-  dreb   Int
-  reb    Int
-  ast    Int
-  stl    Int
-  blk    Int
-  to     Int
-  pf     Int
-  pts    Int
-  Team   Team   @relation(fields: [teamId], references: [id])
-}
-
-model GameTeamNba {
-  id      String  @id
-  teamId  String
+  id      String @id
   fga     Int
   fgm     Int
   tpa     Int
@@ -90,29 +59,68 @@ model GameTeamNba {
   to      Int
   pf      Int
   pts     Int
-  TeamNba TeamNba @relation(fields: [teamId], references: [id])
+  team_id String
+  Team    Team   @relation(fields: [team_id], references: [id])
 }
 
 model Player {
-  id         String       @id
-  teamId     String
-  salary     Int
-  nameFirst  String
-  nameLast   String
-  dob        DateTime
-  GamePlayer GamePlayer[]
-  Team       Team         @relation(fields: [teamId], references: [id])
+  id                String             @id
+  salary            Int
+  dob               DateTime
+  name_first        String
+  name_last         String
+  team_id           String
+  ContractFantasy   ContractFantasy[]
+  GamePlayer        GamePlayer[]
+  Team              Team               @relation(fields: [team_id], references: [id])
+  PlayerStatAverage PlayerStatAverage?
+  PlayerStatTotal   PlayerStatTotal?
 }
 
-model PlayerNba {
-  id            String          @id
-  teamId        String
-  salary        Int
-  nameFirst     String
-  nameLast      String
-  dob           DateTime
-  GamePlayerNba GamePlayerNba[]
-  TeamNba       TeamNba         @relation(fields: [teamId], references: [id])
+model PlayerStatAverage {
+  id            String   @id
+  minutes       Int
+  fga           Int
+  fgm           Int
+  tpa           Int
+  tpm           Int
+  fta           Int
+  ftm           Int
+  oreb          Int
+  dreb          Int
+  reb           Int
+  ast           Int
+  stl           Int
+  blk           Int
+  to            Int
+  pf            Int
+  pts           Int
+  latest_update DateTime
+  player_id     String   @unique
+  Player        Player   @relation(fields: [player_id], references: [id])
+}
+
+model PlayerStatTotal {
+  id            String   @id
+  minutes       Int
+  fga           Int
+  fgm           Int
+  tpa           Int
+  tpm           Int
+  fta           Int
+  ftm           Int
+  oreb          Int
+  dreb          Int
+  reb           Int
+  ast           Int
+  stl           Int
+  blk           Int
+  to            Int
+  pf            Int
+  pts           Int
+  latest_update DateTime
+  player_id     String   @unique
+  Player        Player   @relation(fields: [player_id], references: [id])
 }
 
 model Team {
@@ -123,10 +131,8 @@ model Team {
   Player   Player[]
 }
 
-model TeamNba {
-  id          String        @id
-  name        String
-  city        String
-  GameTeamNba GameTeamNba[]
-  PlayerNba   PlayerNba[]
+model TeamFantasy {
+  id              String            @id
+  name            String
+  ContractFantasy ContractFantasy[]
 }

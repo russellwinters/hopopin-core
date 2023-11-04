@@ -16,6 +16,14 @@ const PlayerQuery = {
     });
     return player;
   },
+  findAll: async (opts?: Options) => {
+    const players = await prisma.player.findMany({
+      include: {
+        GamePlayer: !!opts?.includeGames,
+      },
+    });
+    return players;
+  },
   manyById: async (ids: string[], opts?: Options) => {
     const players = await prisma.player.findMany({
       where: {
