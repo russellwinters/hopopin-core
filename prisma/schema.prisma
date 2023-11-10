@@ -79,22 +79,22 @@ model Player {
 
 model PlayerStatAverage {
   id            String   @id
-  minutes       Int
-  fga           Int
-  fgm           Int
-  tpa           Int
-  tpm           Int
-  fta           Int
-  ftm           Int
-  oreb          Int
-  dreb          Int
-  reb           Int
-  ast           Int
-  stl           Int
-  blk           Int
-  to            Int
-  pf            Int
-  pts           Int
+  minutes       Float
+  fga           Float
+  fgm           Float
+  tpa           Float
+  tpm           Float
+  fta           Float
+  ftm           Float
+  oreb          Float
+  dreb          Float
+  reb           Float
+  ast           Float
+  stl           Float
+  blk           Float
+  to            Float
+  pf            Float
+  pts           Float
   latest_update DateTime
   player_id     String   @unique
   Player        Player   @relation(fields: [player_id], references: [id])

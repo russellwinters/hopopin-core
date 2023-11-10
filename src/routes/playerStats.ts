@@ -18,6 +18,14 @@ const PlayerStatRoutes = {
       res.status(500).json({ message: "Internal Server Error" });
     }
   },
+  resetAverages: async (_, res) => {
+    try {
+      await PlayerAverageService.resetAll();
+      res.status(200).json({ message: "Reset player averages" });
+    } catch (e) {
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  },
 };
 
 export { PlayerStatRoutes };

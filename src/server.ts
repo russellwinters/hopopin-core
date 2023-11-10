@@ -24,6 +24,7 @@ app.get("/player/:id/averages", PlayerRoutes.playerAverages);
 // Stats
 app.get("/stats/totals/init", PlayerStatRoutes.initiateTotals);
 app.get("/stats/averages/init", PlayerStatRoutes.initiateAverages);
+app.get("/stats/averages/reset", PlayerStatRoutes.resetAverages);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

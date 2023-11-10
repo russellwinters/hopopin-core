@@ -13,7 +13,6 @@ const PlayerAverageService = {
       const { GamePlayer: games } = p;
       const { totals, gameCount } = PlayerService.getTotals(games);
       const averages = PlayerService.getAverages(totals, gameCount);
-      if (i < 4) console.log({ averages });
       const newAverages: PlayerStatAverage = {
         ...averages,
         latest_update: timestamp,
@@ -21,6 +20,8 @@ const PlayerAverageService = {
 
       return newAverages;
     });
+
+    console.log({ playerAverages: playerAverages.slice(0, 5) });
 
     const successfulCreation = await PlayerAverageMutation.createMany(
       playerAverages
@@ -31,6 +32,14 @@ const PlayerAverageService = {
     }
 
     return successfulCreation;
+  },
+  resetAll: async () => {
+    try {
+      const hasResetSuccessfully = await PlayerAverageMutation.resetAverages();
+      return hasResetSuccessfully;
+    } catch (e) {
+      return false;
+    }
   },
 };
 

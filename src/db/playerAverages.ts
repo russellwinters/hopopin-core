@@ -35,10 +35,9 @@ const PlayerAverageMutation = {
       await prisma.playerStatAverage.createMany({
         data,
       });
-      console.log("successful creation of averages");
+
       return true;
     } catch (e) {
-      // console.log("error creating averages: ", { e });
       return false;
     }
   },
@@ -51,6 +50,16 @@ const PlayerAverageMutation = {
     });
 
     return !!init;
+  },
+  resetAverages: async () => {
+    try {
+      await prisma.playerStatAverage.deleteMany();
+      await prisma.playerAverageUpdate.deleteMany();
+
+      return true;
+    } catch (e) {
+      return false;
+    }
   },
 };
 
