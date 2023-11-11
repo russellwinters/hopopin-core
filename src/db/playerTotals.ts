@@ -10,6 +10,18 @@ const PlayerTotalQuery = {
     });
     return totals;
   },
+  findAll: async () => {
+    const totals = await prisma.playerStatTotal.findMany();
+    return totals;
+  },
+  findLastUpdate: async () => {
+    const update = await prisma.playerTotalUpdate.findFirst({
+      orderBy: {
+        timestamp: "desc",
+      },
+    });
+    return update;
+  },
 };
 
 const PlayerTotalMutation = {
@@ -51,6 +63,27 @@ const PlayerTotalMutation = {
     });
 
     return !!init;
+  },
+  resetTotals: async () => {
+    try {
+      await prisma.playerStatTotal.deleteMany();
+      await prisma.playerStatTotal.deleteMany();
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  },
+  updateMany: async (data: PlayerStatTotal[]) => {
+    try {
+      await prisma.playerStatTotal.updateMany({
+        data,
+      });
+
+      return true;
+    } catch (e) {
+      return false;
+    }
   },
 };
 

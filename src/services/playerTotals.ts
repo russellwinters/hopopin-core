@@ -29,6 +29,14 @@ const PlayerTotalService = {
 
     return successfulCreation;
   },
+  resetAll: async () => {
+    try {
+      const hasResetSuccessfully = await PlayerTotalMutation.resetTotals();
+      return hasResetSuccessfully;
+    } catch (e) {
+      return false;
+    }
+  },
 };
 
 export { PlayerTotalService };

@@ -22,7 +22,6 @@ model ContractFantasy {
 
 model GamePlayer {
   id        String   @id
-  date      DateTime
   minutes   Int
   fga       Int
   fgm       Int
@@ -40,12 +39,12 @@ model GamePlayer {
   pf        Int
   pts       Int
   player_id String
+  date      DateTime
   Player    Player   @relation(fields: [player_id], references: [id])
 }
 
 model GameTeam {
   id      String   @id
-  date    DateTime
   fga     Int
   fgm     Int
   tpa     Int
@@ -62,6 +61,7 @@ model GameTeam {
   pf      Int
   pts     Int
   team_id String
+  date    DateTime
   Team    Team     @relation(fields: [team_id], references: [id])
 }
 
@@ -126,8 +126,8 @@ model PlayerStatTotal {
 }
 
 model PlayerTotalUpdate {
-  id        Int      @id @default(autoincrement())
   timestamp DateTime
+  id        Int      @id @default(autoincrement())
 }
 
 model Team {

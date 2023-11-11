@@ -61,6 +61,17 @@ const PlayerAverageMutation = {
       return false;
     }
   },
+  updateMany: async (data: PlayerStatAverage[]) => {
+    try {
+      await prisma.playerStatAverage.updateMany({
+        data,
+      });
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  },
 };
 
 export { PlayerAverageQuery, PlayerAverageMutation };

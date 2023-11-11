@@ -23,6 +23,7 @@ app.get("/player/:id/games", PlayerRoutes.playerGames);
 app.get("/player/:id/averages", PlayerRoutes.playerAverages);
 // Stats
 app.get("/stats/totals/init", PlayerStatRoutes.initiateTotals);
+app.get("/stats/totals/reset", PlayerStatRoutes.resetTotals);
 app.get("/stats/averages/init", PlayerStatRoutes.initiateAverages);
 app.get("/stats/averages/reset", PlayerStatRoutes.resetAverages);
 

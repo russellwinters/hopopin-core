@@ -2,6 +2,7 @@ import { prisma } from "../prisma";
 
 type Options = {
   includeGames?: boolean;
+  earliestGame?: Date;
 };
 
 const PlayerQuery = {
@@ -11,7 +12,15 @@ const PlayerQuery = {
         id,
       },
       include: {
-        GamePlayer: !!opts?.includeGames,
+        GamePlayer: opts?.includeGames
+          ? {
+              where: {
+                date: {
+                  gte: opts?.earliestGame,
+                },
+              },
+            }
+          : undefined,
       },
     });
     return player;
@@ -19,7 +28,15 @@ const PlayerQuery = {
   findAll: async (opts?: Options) => {
     const players = await prisma.player.findMany({
       include: {
-        GamePlayer: !!opts?.includeGames,
+        GamePlayer: opts?.includeGames
+          ? {
+              where: {
+                date: {
+                  gte: opts?.earliestGame,
+                },
+              },
+            }
+          : undefined,
       },
     });
     return players;
