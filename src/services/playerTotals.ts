@@ -11,10 +11,9 @@ const PlayerTotalService = {
 
     const playerTotals = players.map((p) => {
       const { GamePlayer: games } = p;
-      const { totals } = PlayerService.getTotals(games);
+      const { totals } = PlayerService.getTotals(games, timestamp);
       const newTotals: PlayerStatTotal = {
         ...totals,
-        latest_update: timestamp,
       };
 
       return newTotals;

@@ -11,11 +11,10 @@ const PlayerAverageService = {
 
     const playerAverages = players.map((p, i) => {
       const { GamePlayer: games } = p;
-      const { totals, gameCount } = PlayerService.getTotals(games);
-      const averages = PlayerService.getAverages(totals, gameCount);
+      const { totals, gameCount } = PlayerService.getTotals(games, timestamp);
+      const averages = PlayerService.getAverages(totals, gameCount, timestamp);
       const newAverages: PlayerStatAverage = {
         ...averages,
-        latest_update: timestamp,
       };
 
       return newAverages;

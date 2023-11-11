@@ -1,10 +1,11 @@
-import { GamePlayer } from "@prisma/client";
+import { GamePlayer, PlayerStatAverage, PlayerStatTotal } from "@prisma/client";
 
 const PlayerService = {
   getTotals: (
-    games: GamePlayer[]
-  ): { totals: GamePlayer; gameCount: number } => {
-    const totals: GamePlayer = games.reduce(
+    games: GamePlayer[],
+    updateTimestamp: Date = new Date()
+  ): { totals: PlayerStatTotal; gameCount: number } => {
+    const totals: PlayerStatTotal = games.reduce(
       (acc, cur) => {
         return {
           id: cur.id,
@@ -25,11 +26,13 @@ const PlayerService = {
           to: cur.to + acc.to,
           pf: cur.pf + acc.pf,
           pts: cur.pts + acc.pts,
+          latest_update: acc.latest_update,
         };
       },
       {
         id: "",
         player_id: "",
+        latest_update: updateTimestamp,
         minutes: 0,
         fga: 0,
         fgm: 0,
@@ -50,18 +53,22 @@ const PlayerService = {
     );
 
     return {
-      totals,
+      totals: { ...totals, latest_update: updateTimestamp },
       gameCount: games.length,
     };
   },
-  getAverages: (totals: GamePlayer, gameCount: number): GamePlayer => {
-    let averages: GamePlayer = { ...totals };
+  getAverages: (
+    totals: PlayerStatTotal,
+    gameCount: number,
+    updateTimestamp: Date = new Date()
+  ): PlayerStatAverage => {
+    let averages: PlayerStatAverage = { ...totals };
     for (let key in totals) {
       if (!["id", "player_id"].includes(key)) {
         averages[key] = totals[key] / gameCount;
       }
     }
-    return averages;
+    return { ...averages, latest_update: updateTimestamp };
   },
 };
 
