@@ -14,14 +14,6 @@ const PlayerTotalQuery = {
     const totals = await prisma.playerStatTotal.findMany();
     return totals;
   },
-  findLastUpdate: async () => {
-    const update = await prisma.playerTotalUpdate.findFirst({
-      orderBy: {
-        timestamp: "desc",
-      },
-    });
-    return update;
-  },
 };
 
 const PlayerTotalMutation = {
@@ -54,16 +46,7 @@ const PlayerTotalMutation = {
       return false;
     }
   },
-  markUpdate: async (time?: Date) => {
-    const timestamp = time || new Date();
-    const init = await prisma.playerTotalUpdate.create({
-      data: {
-        timestamp,
-      },
-    });
 
-    return !!init;
-  },
   resetTotals: async () => {
     try {
       await prisma.playerStatTotal.deleteMany();

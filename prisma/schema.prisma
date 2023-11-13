@@ -66,40 +66,16 @@ model GameTeam {
 }
 
 model Player {
-  id                String             @id
-  salary            Int
-  dob               DateTime
-  name_first        String
-  name_last         String
-  team_id           String
-  ContractFantasy   ContractFantasy[]
-  GamePlayer        GamePlayer[]
-  Team              Team               @relation(fields: [team_id], references: [id])
-  PlayerStatAverage PlayerStatAverage?
-  PlayerStatTotal   PlayerStatTotal?
-}
-
-model PlayerStatAverage {
-  id            String   @id
-  minutes       Float
-  fga           Float
-  fgm           Float
-  tpa           Float
-  tpm           Float
-  fta           Float
-  ftm           Float
-  oreb          Float
-  dreb          Float
-  reb           Float
-  ast           Float
-  stl           Float
-  blk           Float
-  to            Float
-  pf            Float
-  pts           Float
-  latest_update DateTime
-  player_id     String   @unique
-  Player        Player   @relation(fields: [player_id], references: [id])
+  id              String            @id
+  salary          Int
+  dob             DateTime
+  name_first      String
+  name_last       String
+  team_id         String
+  ContractFantasy ContractFantasy[]
+  GamePlayer      GamePlayer[]
+  Team            Team              @relation(fields: [team_id], references: [id])
+  PlayerStatTotal PlayerStatTotal?
 }
 
 model PlayerStatTotal {
@@ -122,12 +98,8 @@ model PlayerStatTotal {
   pts           Int
   latest_update DateTime
   player_id     String   @unique
+  games_played  Int      @default(0)
   Player        Player   @relation(fields: [player_id], references: [id])
-}
-
-model PlayerTotalUpdate {
-  timestamp DateTime
-  id        Int      @id @default(autoincrement())
 }
 
 model Team {
@@ -142,9 +114,4 @@ model TeamFantasy {
   id              String            @id
   name            String
   ContractFantasy ContractFantasy[]
-}
-
-model PlayerAverageUpdate {
-  id        Int      @id @default(autoincrement())
-  timestamp DateTime
 }
