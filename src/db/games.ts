@@ -1,6 +1,4 @@
 import { GamePlayer } from "@prisma/client";
-import { PlayerQuery } from "./player";
-import { v4 as uuidv4 } from "uuid";
 import { prisma } from "src/prisma";
 
 const GameMutation = {
