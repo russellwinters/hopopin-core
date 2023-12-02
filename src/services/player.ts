@@ -1,4 +1,5 @@
 import { GamePlayer, PlayerStatTotal } from "@prisma/client";
+import {PlayerTotalService} from "./playerTotals";
 
 const PlayerService = {
   getTotals: (
@@ -59,6 +60,9 @@ const PlayerService = {
       gameCount: games.length,
     };
   },
+  getPlayerTotals: async (id: string) => {
+    return await PlayerTotalService.getPlayerTotals(id);
+  }
 };
 
 export { PlayerService };

@@ -10,10 +10,10 @@ const TeamService = {
       delete playerData.GamePlayer;
 
       if (player.GamePlayer) {
-        const { totals, gameCount } = PlayerService.getTotals(
+        const { totals } = PlayerService.getTotals(
           player.GamePlayer
         );
-        const averages = PlayerAverageService.getAverages(totals, gameCount);
+        const averages = PlayerAverageService.getAverages(totals);
         playerData.averages = averages;
       }
 

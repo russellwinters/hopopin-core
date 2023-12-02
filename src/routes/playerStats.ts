@@ -44,8 +44,8 @@ const PlayerStatRoutes = {
     }
 
     if (games) {
-      const { totals, gameCount } = PlayerService.getTotals(games);
-      const averages = PlayerAverageService.getAverages(totals, gameCount);
+      const { totals } = PlayerService.getTotals(games);
+      const averages = PlayerAverageService.getAverages(totals);
 
       res.json({ averages });
     }
