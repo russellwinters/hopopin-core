@@ -1,6 +1,24 @@
 import { GamePlayer, PlayerStatTotal } from "@prisma/client";
 import {PlayerTotalService} from "./playerTotals";
 
+// TODO: put this in a types file
+type TeamGameStats = {
+  fga: number,
+  fgm: number,
+  tpa: number,
+  tpm: number,
+  fta: number,
+  ftm: number,
+  oreb: number,
+  dreb: number,
+  reb: number,
+  ast: number,
+  stl: number,
+  blk: number,
+  to: number,
+  pf: number,
+  pts: number,
+}
 const PlayerService = {
   getTotals: (
     games: GamePlayer[],
@@ -59,6 +77,47 @@ const PlayerService = {
       totals: { ...totals, latest_update: updateTimestamp },
       gameCount: games.length,
     };
+  },
+  accumulatePlayerGames: async (games: GamePlayer[]) => {
+    const totals: TeamGameStats = games.reduce(
+        (acc, cur) => {
+          return {
+            fga: cur.fga + acc.fga,
+            fgm: cur.fgm + acc.fgm,
+            tpa: cur.tpa + acc.tpa,
+            tpm: cur.tpm + acc.tpm,
+            fta: cur.fta + acc.fta,
+            ftm: cur.ftm + acc.ftm,
+            oreb: cur.oreb + acc.oreb,
+            dreb: cur.dreb + acc.dreb,
+            reb: cur.reb + acc.reb,
+            ast: cur.ast + acc.ast,
+            stl: cur.stl + acc.stl,
+            blk: cur.blk + acc.blk,
+            to: cur.to + acc.to,
+            pf: cur.pf + acc.pf,
+            pts: cur.pts + acc.pts,
+          };
+        },
+        {
+          fga: 0,
+          fgm: 0,
+          tpa: 0,
+          tpm: 0,
+          fta: 0,
+          ftm: 0,
+          oreb: 0,
+          dreb: 0,
+          reb: 0,
+          ast: 0,
+          stl: 0,
+          blk: 0,
+          to: 0,
+          pf: 0,
+          pts: 0,
+        }
+    );
+    return totals;
   },
   getPlayerTotals: async (id: string) => {
     return await PlayerTotalService.getPlayerTotals(id);

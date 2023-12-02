@@ -1,6 +1,7 @@
 import { TeamService } from "../services/team";
 import { PlayerQuery } from "../db/player";
 import { TeamQuery } from "../db/team";
+import {GameService} from "../services/games";
 
 const TeamRoutes = {
   team: async (_, res) => {
@@ -46,6 +47,13 @@ const TeamRoutes = {
 
     res.json({ players: playersWithAverages });
   },
+  teamSimGame:async (req, res) => {
+    const { id } = req.params;
+  if (!id) res.status(400).json({error: "Invalid params"});
+    const game = await GameService.addGameTeam(id);
+
+    res.status(200).json({game})
+  }
 };
 
 export { TeamRoutes };

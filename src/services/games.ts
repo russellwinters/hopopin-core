@@ -1,11 +1,13 @@
-import { GamePlayer } from "@prisma/client";
+import {GamePlayer, GameTeam} from "@prisma/client";
 import { PlayerQuery } from "../db/player";
 import { v4 as uuidv4 } from "uuid";
-import {GameMutation} from "../db/games";
+import {GameMutation, GameQuery} from "../db/games";
 import {PlayerTotalService} from "./playerTotals";
+import {TeamQuery} from "../db/team";
+import {PlayerService} from "./player";
 
 const GameService = {
-  addGame: async (playerId: string) => {
+  addGamePlayer: async (playerId: string) => {
     const player = await PlayerQuery.findById(playerId, { includeGames: true });
     const games = player?.GamePlayer;
 
@@ -64,6 +66,30 @@ const GameService = {
     return await GameMutation.addGame(game)
 
   },
+  getSingleGame: async (playerId: string) => {
+    return await GameQuery.getSingleGame(playerId);
+  },
+  addGameTeam: async (teamId: string) => {
+    const team = await TeamQuery.findById(teamId, {includePlayers: true});
+    if (!team) return false;
+
+  const games = await Promise.all(team.Player.map(p => GameService.getSingleGame(p.id)))
+  if (!games) return;
+  if (!games.every(g => g !== undefined)) return;
+
+  const accStats = await PlayerService.accumulatePlayerGames(games);
+  const newGame: GameTeam = {
+    ...accStats,
+    team_id: teamId,
+    date: new Date(),
+    id: uuidv4(),
+  }
+
+
+    await GameMutation.addGameTeam(newGame)
+    return newGame;
+
+  }
 };
 
 export { GameService };

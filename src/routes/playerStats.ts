@@ -21,7 +21,7 @@ const PlayerStatRoutes = {
     try {
       const players = await PlayerQuery.findAll();
       const results = await Promise.allSettled(
-          players.map(p => GameService.addGame((p.id)))
+          players.map(p => GameService.addGamePlayer((p.id)))
       )
 
       //  TODO: Some sort of logging to track the results
