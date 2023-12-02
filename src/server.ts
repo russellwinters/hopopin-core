@@ -22,6 +22,9 @@ app.get("/player/:id", PlayerRoutes.playerById);
 app.get("/player/:id/games", PlayerRoutes.playerGames);
 app.get("/player/:id/averages", PlayerRoutes.playerAverages);
 app.get("/player/:id/totals", PlayerStatRoutes.getPlayerTotals);
+// Stats
+app.get("/stats/games/add", PlayerStatRoutes.addPlayerGames)
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

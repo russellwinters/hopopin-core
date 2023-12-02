@@ -68,9 +68,7 @@ const PlayerTotalMutation = {
       return false;
     }
   },
-  updateSingle: async (playerId: string, data: Partial<PlayerStatTotal>) => {
-    // TODO Implement this
-  },
+
 };
 
 export { PlayerTotalQuery, PlayerTotalMutation };

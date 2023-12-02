@@ -1,6 +1,8 @@
 import { GamePlayer } from "@prisma/client";
-import { PlayerQuery } from "src/db/player";
+import { PlayerQuery } from "../db/player";
 import { v4 as uuidv4 } from "uuid";
+import {GameMutation} from "../db/games";
+import {PlayerTotalService} from "./playerTotals";
 
 const GameService = {
   addGame: async (playerId: string) => {
@@ -56,9 +58,11 @@ const GameService = {
     const twoPointerPoints = twoPointerMakes * 2;
     game.pts = freeThrowPoints + threePointerPoints + twoPointerPoints;
 
-    // TODO: instead of returning this game, use the games db service to create a game, then use the playerTotals DB service to update totals
-    // TODO: make some loggin here so when route is run it's all good
-    return game;
+    console.log(`GameService.addGame: `, {playerid: game.player_id,game})
+
+    await PlayerTotalService.addGameToPlayerTotals(game);
+    return await GameMutation.addGame(game)
+
   },
 };
 
