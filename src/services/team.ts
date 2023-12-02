@@ -1,4 +1,5 @@
 import { PlayerService } from "./player";
+import {PlayerAverageService} from "./playerAverages";
 
 const TeamService = {
   getRosterAverages: (roster: any[]) => {
@@ -12,7 +13,7 @@ const TeamService = {
         const { totals, gameCount } = PlayerService.getTotals(
           player.GamePlayer
         );
-        const averages = PlayerService.getAverages(totals, gameCount);
+        const averages = PlayerAverageService.getAverages(totals, gameCount);
         playerData.averages = averages;
       }
 

@@ -59,22 +59,6 @@ const PlayerService = {
       gameCount: games.length,
     };
   },
-  getAverages: (
-    totals: PlayerStatTotal,
-    gameCount: number,
-    updateTimestamp: Date = new Date()
-  ): any => {
-    let averages: any = { ...totals };
-    for (let key in totals) {
-      if (!["id", "player_id"].includes(key)) {
-        averages[key] = totals[key] / gameCount;
-      }
-    }
-
-    delete averages.games_played;
-
-    return { ...averages, latest_update: updateTimestamp };
-  },
 };
 
 export { PlayerService };
